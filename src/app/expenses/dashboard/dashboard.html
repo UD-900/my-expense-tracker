@@ -1,14 +1,21 @@
-<h2>Ringkasan Pengeluaran</h2>
-<p>Total Pengeluaran Bulan Ini: **Rp {{ totalExpenses | number }}**</p>
+<div class="dashboard-container">
+  <h2>Ringkasan Pengeluaran</h2>
 
-<h3>Pengeluaran per Kategori</h3>
-<ul>
-  <li *ngFor="let category of expensesByCategory | keyvalue">
-    {{ category.key }}: Rp {{ category.value | number }}
-  </li>
-</ul>
+  <div class="summary-card">
+    <p>Total Pengeluaran Bulan Ini</p>
+    <strong>Rp {{ totalExpenses | number }}</strong>
+  </div>
 
-<hr>
+  <h3>Pengeluaran per Kategori</h3>
+  <ul>
+    <li *ngFor="let category of expensesByCategory | keyvalue">
+      <span>{{ category.key }}</span>
+      <span>Rp {{ category.value | number }}</span>
+    </li>
+  </ul>
 
-<button routerLink="/expenses/add">Tambah Pengeluaran Baru</button>
-<button routerLink="/expenses/list">Lihat Semua Pengeluaran</button>
+  <div class="button-group">
+    <button routerLink="/expenses/add">Tambah Pengeluaran Baru</button>
+    <button routerLink="/expenses/list">Lihat Semua Pengeluaran</button>
+  </div>
+</div>

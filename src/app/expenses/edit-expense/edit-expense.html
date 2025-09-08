@@ -1,0 +1,30 @@
+<div class="edit-expense-container">
+  <h2>Edit Pengeluaran</h2>
+
+  <div *ngIf="!expense">
+    <p>Pengeluaran tidak ditemukan!</p>
+    <button routerLink="/expenses/list" class="back-button">Kembali ke Daftar</button>
+  </div>
+
+  <form *ngIf="expense" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="category">Kategori:</label>
+      <select id="category" name="category" [(ngModel)]="expense.category" required>
+        <option *ngFor="let category of categories" [ngValue]="category.name">{{ category.name }}</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="amount">Jumlah Pengeluaran (Rp):</label>
+      <input type="number" id="amount" name="amount" [(ngModel)]="expense.amount" required>
+    </div>
+
+    <div class="form-group">
+      <label for="description">Deskripsi:</label>
+      <input type="text" id="description" name="description" [(ngModel)]="expense.description">
+    </div>
+
+    <button type="submit" class="submit-button">Simpan Perubahan</button>
+    <button type="button" class="back-button" (click)="goBack()">Batal</button>
+  </form>
+</div>

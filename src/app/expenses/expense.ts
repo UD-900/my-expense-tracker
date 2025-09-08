@@ -83,4 +83,20 @@ export class expenseService {
     this.categories.push(category);
     // Jika Anda ingin kategori juga persisten, tambahkan logika penyimpanan di sini
   }
+
+  // Metode baru: Cari pengeluaran berdasarkan ID
+  getExpenseById(id: string): Expense | undefined {
+    return this.expenses.find(exp => exp.id === id);
+  }
+
+  // Metode baru: Perbarui pengeluaran
+  updateExpense(updatedExpense: Expense): void {
+    const index = this.expenses.findIndex(exp => exp.id === updatedExpense.id);
+    if (index !== -1) {
+      this.expenses[index] = updatedExpense;
+      this.saveExpenses(); // Panggil metode ini untuk menyimpan perubahan
+      console.log('Pengeluaran berhasil diperbarui:', this.expenses);
+    }
+  }
+
 }
