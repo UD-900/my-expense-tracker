@@ -9,7 +9,7 @@ import { expenseService } from '../expense';
   templateUrl: './add-expense.html',
   styleUrl: './add-expense.scss'
 })
-export class AddExpense implements OnInit{
+export class AddExpense implements OnInit {
 
   newExpense: Expense = {
     id: '',
@@ -19,6 +19,7 @@ export class AddExpense implements OnInit{
     date: new Date()
   };
 
+  newCategoryName: string = ''; // Variabel baru untuk kategori
   categories: Category[] = [];
 
   constructor(
@@ -31,6 +32,12 @@ export class AddExpense implements OnInit{
   }
 
   onSubmit(): void {
+    // Logika untuk menambahkan kategori baru jika input diisi
+    if (this.newCategoryName) {
+      this.expenseService.addCategory(this.newCategoryName);
+      this.newExpense.category = this.newCategoryName;
+    }
+
     if (this.newExpense.amount > 0 && this.newExpense.category) {
       this.expenseService.addExpense(this.newExpense);
       this.router.navigate(['/expenses/dashboard']);

@@ -9,7 +9,8 @@ import { v4 as uuidv4 } from 'uuid'; // Kita akan menginstal library ini
 export class expenseService {
 
   private expenses: Expense[] = [];
-  private categories: Category[] = [
+  private categories: Category[] = []; // Ubah menjadi array kosong
+  private defaultCategories: Category[] = [
     { name: 'Makanan' },
     { name: 'Transportasi' },
     { name: 'Belanja' },
@@ -18,6 +19,7 @@ export class expenseService {
 
   constructor() {
     this.loadExpenses();
+    this.loadCategories(); // Panggil metode baru untuk memuat kategori
   }
 
   // Metode untuk memuat data dari localStorage saat aplikasi dimulai
@@ -60,6 +62,32 @@ export class expenseService {
     this.saveExpenses(); // Simpan data dummy ke localStorage
   }
 
+  // Metode baru: Memuat kategori dari localStorage
+  private loadCategories(): void {
+    const storedCategories = localStorage.getItem('categories');
+    if (storedCategories) {
+      try {
+        this.categories = JSON.parse(storedCategories);
+      } catch (e) {
+        console.error("Gagal memuat kategori dari localStorage, menggunakan data default.", e);
+        this.categories = this.defaultCategories;
+        this.saveCategories();
+      }
+    } else {
+      this.categories = this.defaultCategories;
+      this.saveCategories();
+    }
+  }
+
+  // Metode baru: Menyimpan kategori ke localStorage
+  private saveCategories(): void {
+    try {
+      localStorage.setItem('categories', JSON.stringify(this.categories));
+    } catch (e) {
+      console.error("Gagal menyimpan kategori ke localStorage.", e);
+    }
+  }
+
   // Mengambil semua pengeluaran
   getExpenses(): Expense[] {
     return this.expenses;
@@ -71,17 +99,6 @@ export class expenseService {
     this.expenses.push(expense);
     this.saveExpenses(); // Panggil metode ini untuk menyimpan perubahan
     console.log('Pengeluaran baru ditambahkan:', this.expenses);
-  }
-
-  // Mengambil daftar kategori
-  getCategories(): Category[] {
-    return this.categories;
-  }
-
-  // Menambahkan fitur baru: Menambahkan kategori baru
-  addCategory(category: Category): void {
-    this.categories.push(category);
-    // Jika Anda ingin kategori juga persisten, tambahkan logika penyimpanan di sini
   }
 
   // Metode baru: Cari pengeluaran berdasarkan ID
@@ -96,6 +113,22 @@ export class expenseService {
       this.expenses[index] = updatedExpense;
       this.saveExpenses(); // Panggil metode ini untuk menyimpan perubahan
       console.log('Pengeluaran berhasil diperbarui:', this.expenses);
+    }
+  }
+
+  // Mengambil daftar kategori
+  getCategories(): Category[] {
+    return this.categories;
+  }
+
+  // Metode baru: Menambahkan kategori baru dari UI
+  addCategory(categoryName: string): void {
+    const existingCategory = this.categories.find(cat => cat.name.toLowerCase() === categoryName.toLowerCase());
+    if (!existingCategory) {
+      const newCategory: Category = { name: categoryName };
+      this.categories.push(newCategory);
+      this.saveCategories(); // Simpan perubahan ke localStorage
+      console.log('Kategori baru ditambahkan:', this.categories);
     }
   }
 
