@@ -1,0 +1,60 @@
+<div class="bill-templates-container">
+  <h2>Kelola Template Tagihan Bulanan</h2>
+
+  <form (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="name">Nama Tagihan:</label>
+      <input type="text" id="name" name="name" [(ngModel)]="newTemplate.name" required>
+    </div>
+
+    <div class="form-group">
+      <label for="amount">Jumlah (Rp):</label>
+      <input type="number" id="amount" name="amount" [(ngModel)]="newTemplate.amount" required>
+    </div>
+
+    <div class="form-group">
+      <label for="category">Kategori:</label>
+      <select id="category" name="category" [(ngModel)]="newTemplate.category" required>
+        <option value="" disabled selected>Pilih Kategori</option>
+        <option *ngFor="let category of categories" [ngValue]="category.name">{{ category.name }}</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="dueDate">Jatuh Tempo (tanggal):</label>
+      <input type="number" id="dueDate" name="dueDate" [(ngModel)]="newTemplate.dueDate" min="1" max="31" required>
+    </div>
+
+    <button type="submit" class="submit-button">Tambah Template</button>
+  </form>
+
+  <hr>
+
+  <h3>Daftar Template</h3>
+  <table *ngIf="templates.length > 0">
+    <thead>
+      <tr>
+        <th>Nama Tagihan</th>
+        <th>Jumlah</th>
+        <th>Kategori</th>
+        <th>Jatuh Tempo</th>
+        <th>Aksi</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let template of templates">
+        <td>{{ template.name }}</td>
+        <td>{{ template.amount | number }}</td>
+        <td>{{ template.category }}</td>
+        <td>Tanggal {{ template.dueDate }}</td>
+        <td>
+          <button class="delete-button" (click)="deleteTemplate(template.id)">Hapus</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="button-group">
+    <button routerLink="/expenses/bills" class="back-button">Kembali ke Tagihan</button>
+  </div>
+</div>

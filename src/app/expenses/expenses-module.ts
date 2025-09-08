@@ -6,7 +6,9 @@ import { Dashboard } from './dashboard/dashboard';
 import { RouterModule, Routes } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { EditExpense } from './edit-expense/edit-expense';
-import { CategoryDetail } from './category-detail/category-detail'; // Diperlukan untuk form
+import { CategoryDetail } from './category-detail/category-detail';
+import { BillTemplates } from './bill-templates/bill-templates';
+import { MonthlyBills } from './monthly-bills/monthly-bills'; // Diperlukan untuk form
 
 const routes: Routes = [
   { path: 'dashboard', component: Dashboard },
@@ -14,6 +16,8 @@ const routes: Routes = [
   { path: 'list', component: ExpenseList },
   { path: 'edit/:id', component: EditExpense },
   { path: 'category/:categoryName', component: CategoryDetail },
+  { path: 'bills', component: MonthlyBills },
+  { path: 'bill-templates', component: BillTemplates }
 ];
 
 @NgModule({
@@ -22,7 +26,9 @@ const routes: Routes = [
     ExpenseList,
     Dashboard,
     EditExpense,
-    CategoryDetail
+    CategoryDetail,
+    BillTemplates,
+    MonthlyBills
   ],
   imports: [
     CommonModule,

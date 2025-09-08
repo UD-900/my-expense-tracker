@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Expense, Category } from '../models/expense.model';
+import { Expense, Category, MonthlyBillTemplate, MonthlyBill } from '../models/expense.model';
 import { v4 as uuidv4 } from 'uuid'; // Kita akan menginstal library ini
 
 @Injectable({
@@ -9,7 +9,7 @@ import { v4 as uuidv4 } from 'uuid'; // Kita akan menginstal library ini
 export class expenseService {
 
   private expenses: Expense[] = [];
-  private categories: Category[] = []; // Ubah menjadi array kosong
+  private categories: Category[] = [];
   private defaultCategories: Category[] = [
     { name: 'Makanan' },
     { name: 'Transportasi' },
@@ -17,59 +17,88 @@ export class expenseService {
     { name: 'Tagihan' }
   ];
 
+  private billTemplates: MonthlyBillTemplate[] = [];
+
   constructor() {
     this.loadExpenses();
-    this.loadCategories(); // Panggil metode baru untuk memuat kategori
+    this.loadCategories();
+    this.loadBillTemplates();
   }
 
-  // Metode untuk memuat data dari localStorage saat aplikasi dimulai
+  // --- Logika untuk Expense ---
   private loadExpenses(): void {
     const storedExpenses = localStorage.getItem('expenses');
     if (storedExpenses) {
-      // Jika ada data di localStorage, parse string JSON kembali menjadi array objek
       try {
         this.expenses = JSON.parse(storedExpenses).map((exp: any) => ({
           ...exp,
-          // Mengkonversi string tanggal kembali menjadi objek Date
           date: new Date(exp.date)
         }));
       } catch (e) {
-        console.error("Gagal memuat data dari localStorage, menggunakan data default.", e);
         this.resetToDefaultExpenses();
       }
     } else {
-      // Jika tidak ada data, gunakan data dummy (default)
       this.resetToDefaultExpenses();
     }
   }
 
-  // Metode untuk menyimpan data ke localStorage
   private saveExpenses(): void {
     try {
-      // Konversi array objek menjadi string JSON sebelum disimpan
       localStorage.setItem('expenses', JSON.stringify(this.expenses));
     } catch (e) {
-      console.error("Gagal menyimpan data ke localStorage.", e);
+      console.error("Gagal menyimpan pengeluaran ke localStorage.", e);
     }
   }
 
-  // Metode untuk menyiapkan data dummy
   private resetToDefaultExpenses(): void {
     this.expenses = [
       { id: uuidv4(), amount: 50000, category: 'Makanan', description: 'Makan siang di kantor', date: new Date() },
       { id: uuidv4(), amount: 25000, category: 'Transportasi', description: 'Ongkos taksi online', date: new Date() }
     ];
-    this.saveExpenses(); // Simpan data dummy ke localStorage
+    this.saveExpenses();
   }
 
-  // Metode baru: Memuat kategori dari localStorage
+  getExpenses(): Expense[] {
+    return this.expenses;
+  }
+
+  addExpense(expense: Expense): void {
+    expense.id = uuidv4();
+    this.expenses.push(expense);
+    this.saveExpenses();
+  }
+
+  getExpenseById(id: string): Expense | undefined {
+    return this.expenses.find(exp => exp.id === id);
+  }
+
+  updateExpense(updatedExpense: Expense): void {
+    const index = this.expenses.findIndex(exp => exp.id === updatedExpense.id);
+    if (index !== -1) {
+      this.expenses[index] = updatedExpense;
+      this.saveExpenses();
+    }
+  }
+
+  deleteExpense(id: string): void {
+    const index = this.expenses.findIndex(exp => exp.id === id);
+    if (index !== -1) {
+      this.expenses.splice(index, 1);
+      this.saveExpenses();
+    }
+  }
+
+  getExpensesByCategory(categoryName: string): Expense[] {
+    return this.expenses.filter(exp => exp.category.toLowerCase() === categoryName.toLowerCase());
+  }
+
+  // --- Logika untuk Kategori ---
   private loadCategories(): void {
     const storedCategories = localStorage.getItem('categories');
     if (storedCategories) {
       try {
         this.categories = JSON.parse(storedCategories);
       } catch (e) {
-        console.error("Gagal memuat kategori dari localStorage, menggunakan data default.", e);
         this.categories = this.defaultCategories;
         this.saveCategories();
       }
@@ -79,7 +108,6 @@ export class expenseService {
     }
   }
 
-  // Metode baru: Menyimpan kategori ke localStorage
   private saveCategories(): void {
     try {
       localStorage.setItem('categories', JSON.stringify(this.categories));
@@ -88,53 +116,109 @@ export class expenseService {
     }
   }
 
-  // Mengambil semua pengeluaran
-  getExpenses(): Expense[] {
-    return this.expenses;
-  }
-
-  // Menambahkan pengeluaran baru
-  addExpense(expense: Expense): void {
-    expense.id = uuidv4(); // Memberikan ID unik
-    this.expenses.push(expense);
-    this.saveExpenses(); // Panggil metode ini untuk menyimpan perubahan
-    console.log('Pengeluaran baru ditambahkan:', this.expenses);
-  }
-
-  // Metode baru: Cari pengeluaran berdasarkan ID
-  getExpenseById(id: string): Expense | undefined {
-    return this.expenses.find(exp => exp.id === id);
-  }
-
-  // Metode baru: Perbarui pengeluaran
-  updateExpense(updatedExpense: Expense): void {
-    const index = this.expenses.findIndex(exp => exp.id === updatedExpense.id);
-    if (index !== -1) {
-      this.expenses[index] = updatedExpense;
-      this.saveExpenses(); // Panggil metode ini untuk menyimpan perubahan
-      console.log('Pengeluaran berhasil diperbarui:', this.expenses);
-    }
-  }
-
-  // Mengambil daftar kategori
   getCategories(): Category[] {
     return this.categories;
   }
 
-  // Metode baru: Menambahkan kategori baru dari UI
   addCategory(categoryName: string): void {
     const existingCategory = this.categories.find(cat => cat.name.toLowerCase() === categoryName.toLowerCase());
     if (!existingCategory) {
       const newCategory: Category = { name: categoryName };
       this.categories.push(newCategory);
-      this.saveCategories(); // Simpan perubahan ke localStorage
-      console.log('Kategori baru ditambahkan:', this.categories);
+      this.saveCategories();
     }
   }
 
-  // Metode baru: Mengambil pengeluaran berdasarkan kategori
-  getExpensesByCategory(categoryName: string): Expense[] {
-    return this.expenses.filter(exp => exp.category.toLowerCase() === categoryName.toLowerCase());
+  // --- Logika untuk Template Tagihan Bulanan (BARU) ---
+  private loadBillTemplates(): void {
+    const storedTemplates = localStorage.getItem('billTemplates');
+    if (storedTemplates) {
+      try {
+        this.billTemplates = JSON.parse(storedTemplates);
+      } catch (e) {
+        this.billTemplates = [];
+      }
+    } else {
+      this.billTemplates = [];
+    }
   }
 
+  private saveBillTemplates(): void {
+    localStorage.setItem('billTemplates', JSON.stringify(this.billTemplates));
+  }
+
+  getBillTemplates(): MonthlyBillTemplate[] {
+    return this.billTemplates;
+  }
+
+  addBillTemplate(template: MonthlyBillTemplate): void {
+    template.id = uuidv4();
+    this.billTemplates.push(template);
+    this.saveBillTemplates();
+  }
+
+  updateBillTemplate(updatedTemplate: MonthlyBillTemplate): void {
+    const index = this.billTemplates.findIndex(t => t.id === updatedTemplate.id);
+    if (index !== -1) {
+      this.billTemplates[index] = updatedTemplate;
+      this.saveBillTemplates();
+    }
+  }
+
+  deleteBillTemplate(id: string): void {
+    const index = this.billTemplates.findIndex(t => t.id === id);
+    if (index !== -1) {
+      this.billTemplates.splice(index, 1);
+      this.saveBillTemplates();
+    }
+  }
+
+  // --- Logika untuk menghasilkan Tagihan Bulanan (BARU) ---
+  getMonthlyBillsForCurrentMonth(): MonthlyBill[] {
+    const currentMonth = new Date().getMonth();
+    const currentYear = new Date().getFullYear();
+    const bills: MonthlyBill[] = [];
+
+    this.billTemplates.forEach(template => {
+      const dueDate = new Date(currentYear, currentMonth, template.dueDate);
+      const paidExpense = this.expenses.find(exp =>
+        exp.category === template.category &&
+        exp.description.includes(template.name) &&
+        exp.date.getMonth() === currentMonth &&
+        exp.date.getFullYear() === currentYear
+      );
+
+      bills.push({
+        id: template.id,
+        name: template.name,
+        amount: template.amount,
+        category: template.category,
+        dueDate: dueDate,
+        isPaid: !!paidExpense,
+        paidDate: paidExpense ? paidExpense.date : undefined,
+        paidExpenseId: paidExpense ? paidExpense.id : undefined // Simpan ID pengeluaran
+      });
+    });
+
+    return bills;
+  }
+
+  // Perbarui metode untuk menandai sudah dibayar
+  markBillAsPaid(bill: MonthlyBill): void {
+    const paidExpense: Expense = {
+      id: uuidv4(),
+      amount: bill.amount,
+      category: bill.category,
+      description: bill.name,
+      date: new Date()
+    };
+    this.addExpense(paidExpense);
+  }
+
+  // Metode BARU untuk membatalkan pembayaran
+  unmarkBillAsPaid(bill: MonthlyBill): void {
+    if (bill.paidExpenseId) {
+      this.deleteExpense(bill.paidExpenseId);
+    }
+  }
 }

@@ -13,13 +13,14 @@
     </thead>
     <tbody>
       <tr *ngFor="let expense of expenses">
+        <td>
+          <button class="edit-button" [routerLink]="['/expenses/edit', expense.id]">Edit</button>
+          <button class="delete-button" (click)="deleteExpense(expense.id)">Hapus</button>
+        </td>
         <td>{{ expense.date | date: 'mediumDate' }}</td>
         <td>{{ expense.description }}</td>
         <td>{{ expense.category }}</td>
         <td>{{ expense.amount | number }}</td>
-        <td>
-          <button class="edit-button" [routerLink]="['/expenses/edit', expense.id]">Edit</button>
-        </td>
       </tr>
     </tbody>
   </table>

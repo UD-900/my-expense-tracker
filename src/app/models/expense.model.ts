@@ -10,3 +10,34 @@ export interface Category {
   name: string; // Nama kategori
   description?: string; // Deskripsi opsional
 }
+
+// Interface untuk Template Tagihan Bulanan
+export interface MonthlyBillTemplate {
+  id: string;
+  name: string;
+  amount: number;
+  category: string;
+  dueDate: number; // Tanggal jatuh tempo (misal: 15 untuk tanggal 15)
+}
+
+// Interface untuk Tagihan Bulanan (instance untuk bulan berjalan)
+export interface MonthlyBill {
+  id: string;
+  name: string;
+  amount: number;
+  category: string;
+  dueDate: Date; // Objek Date lengkap
+  isPaid: boolean; // Status pembayaran
+  paidDate?: Date; // Opsional: Tanggal pembayaran
+}
+
+export interface MonthlyBill {
+  id: string;
+  name: string;
+  amount: number;
+  category: string;
+  dueDate: Date;
+  isPaid: boolean;
+  paidDate?: Date;
+  paidExpenseId?: string; // Tambahkan properti ini
+}

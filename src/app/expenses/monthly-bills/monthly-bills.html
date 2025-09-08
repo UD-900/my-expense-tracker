@@ -1,0 +1,43 @@
+<div class="monthly-bills-container">
+  <h2>Tagihan Bulanan Anda</h2>
+
+  <p *ngIf="monthlyBills.length === 0" class="empty-state">
+    Belum ada tagihan yang diatur. Silakan tambahkan template tagihan.
+  </p>
+
+  <table *ngIf="monthlyBills.length > 0">
+    <thead>
+      <tr>
+        <th>Nama Tagihan</th>
+        <th>Jumlah (Rp)</th>
+        <th>Jatuh Tempo</th>
+        <th>Status</th>
+        <th>Aksi</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let bill of monthlyBills">
+        <td>{{ bill.name }}</td>
+        <td>{{ bill.amount | number }}</td>
+        <td>{{ bill.dueDate | date: 'longDate' }}</td>
+        <td>
+          <ng-container *ngIf="bill.isPaid; else unpaidButtons">
+            <span class="status paid">Sudah Dibayar</span>
+            <button class="undo-button" (click)="unmarkAsPaid(bill)">Batal</button>
+          </ng-container>
+        </td>
+        <td>
+          <ng-template #unpaidButtons>
+            <span class="status unpaid">Belum Dibayar</span>
+            <button class="pay-button" (click)="markAsPaid(bill)">Tandai Sudah Dibayar</button>
+          </ng-template>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="button-group">
+    <button routerLink="/expenses/dashboard" class="back-button">Kembali ke Dashboard</button>
+    <button routerLink="/expenses/bill-templates" class="template-button">Kelola Template Tagihan</button>
+  </div>
+</div>
