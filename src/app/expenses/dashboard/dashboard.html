@@ -8,7 +8,7 @@
 
   <h3>Pengeluaran per Kategori</h3>
   <ul>
-    <li *ngFor="let category of expensesByCategory | keyvalue">
+    <li *ngFor="let category of expensesByCategory | keyvalue" [routerLink]="['/expenses/category', category.key]">
       <span>{{ category.key }}</span>
       <span>Rp {{ category.value | number }}</span>
     </li>

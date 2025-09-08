@@ -57,6 +57,14 @@
     &:last-child {
       margin-bottom: 0;
     }
+
+    //tambahan baru
+    cursor: pointer; // Tambahkan baris ini
+    transition: background-color 0.2s ease;
+
+    &:hover {
+      background-color: #e0e0e0; // Tambahkan efek hover
+    }
   }
 
   .button-group {
@@ -92,4 +100,6 @@
       }
     }
   }
+
+
 }

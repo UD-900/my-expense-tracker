@@ -1,0 +1,24 @@
+<div class="category-detail-container">
+  <h2>Pengeluaran Kategori: {{ categoryName }}</h2>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Tanggal</th>
+        <th>Deskripsi</th>
+        <th>Jumlah (Rp)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let expense of expenses">
+        <td>{{ expense.date | date: 'mediumDate' }}</td>
+        <td>{{ expense.description }}</td>
+        <td>{{ expense.amount | number }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="button-group">
+    <button routerLink="/expenses/dashboard">Kembali ke Dashboard</button>
+  </div>
+</div>

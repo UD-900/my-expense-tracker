@@ -132,4 +132,9 @@ export class expenseService {
     }
   }
 
+  // Metode baru: Mengambil pengeluaran berdasarkan kategori
+  getExpensesByCategory(categoryName: string): Expense[] {
+    return this.expenses.filter(exp => exp.category.toLowerCase() === categoryName.toLowerCase());
+  }
+
 }

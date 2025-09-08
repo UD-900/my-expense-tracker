@@ -5,13 +5,15 @@ import { ExpenseList } from './expense-list/expense-list';
 import { Dashboard } from './dashboard/dashboard';
 import { RouterModule, Routes } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { EditExpense } from './edit-expense/edit-expense'; // Diperlukan untuk form
+import { EditExpense } from './edit-expense/edit-expense';
+import { CategoryDetail } from './category-detail/category-detail'; // Diperlukan untuk form
 
 const routes: Routes = [
   { path: 'dashboard', component: Dashboard },
   { path: 'add', component: AddExpense },
   { path: 'list', component: ExpenseList },
-  { path: 'edit/:id', component: EditExpense }
+  { path: 'edit/:id', component: EditExpense },
+  { path: 'category/:categoryName', component: CategoryDetail },
 ];
 
 @NgModule({
@@ -19,7 +21,8 @@ const routes: Routes = [
     AddExpense,
     ExpenseList,
     Dashboard,
-    EditExpense
+    EditExpense,
+    CategoryDetail
   ],
   imports: [
     CommonModule,
