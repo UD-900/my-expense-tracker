@@ -1,0 +1,22 @@
+<h2>Tambah Pengeluaran Baru</h2>
+
+<form (ngSubmit)="onSubmit()">
+  <div class="form-group">
+    <label for="category">Kategori:</label>
+    <select id="category" name="category" [(ngModel)]="newExpense.category" required>
+      <option *ngFor="let category of categories" [ngValue]="category.name">{{ category.name }}</option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label for="amount">Jumlah Pengeluaran (Rp):</label>
+    <input type="number" id="amount" name="amount" [(ngModel)]="newExpense.amount" required>
+  </div>
+
+  <div class="form-group">
+    <label for="description">Deskripsi:</label>
+    <input type="text" id="description" name="description" [(ngModel)]="newExpense.description">
+  </div>
+
+  <button type="submit">Tambah Pengeluaran</button>
+</form>

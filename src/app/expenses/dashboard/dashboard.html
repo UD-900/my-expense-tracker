@@ -1,0 +1,14 @@
+<h2>Ringkasan Pengeluaran</h2>
+<p>Total Pengeluaran Bulan Ini: **Rp {{ totalExpenses | number }}**</p>
+
+<h3>Pengeluaran per Kategori</h3>
+<ul>
+  <li *ngFor="let category of expensesByCategory | keyvalue">
+    {{ category.key }}: Rp {{ category.value | number }}
+  </li>
+</ul>
+
+<hr>
+
+<button routerLink="/expenses/add">Tambah Pengeluaran Baru</button>
+<button routerLink="/expenses/list">Lihat Semua Pengeluaran</button>
