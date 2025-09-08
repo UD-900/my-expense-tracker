@@ -2,10 +2,12 @@
   <h2>Tambah Pengeluaran Baru</h2>
 
   <form (ngSubmit)="onSubmit()">
-    <div class="form-group">
-      <label for="date">Tanggal Pengeluaran:</label>
-      <input type="date" id="date" name="date" [(ngModel)]="expenseDate" required>
-    </div>
+    <mat-form-field appearance="fill" class="form-group">
+      <mat-label>Tanggal Pengeluaran</mat-label>
+      <input matInput [matDatepicker]="picker" [(ngModel)]="newExpense.date" name="date">
+      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
 
     <div class="form-group">
       <label for="category">Kategori yang sudah ada:</label>

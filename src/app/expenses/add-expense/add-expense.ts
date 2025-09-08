@@ -19,7 +19,6 @@ export class AddExpense implements OnInit {
     date: new Date()
   };
 
-  expenseDate: string = new Date().toISOString().substring(0, 10); // Variabel baru untuk tanggal, inisialisasi dengan tanggal hari ini
   newCategoryName: string = ''; // Variabel baru untuk kategori
   categories: Category[] = [];
 
@@ -38,15 +37,11 @@ export class AddExpense implements OnInit {
       this.newExpense.category = this.newCategoryName;
     }
 
-    // Pastikan input tanggal dan kategori/jumlah terisi
-    if (this.expenseDate && this.newExpense.amount > 0 && this.newExpense.category) {
-      // Konversi string tanggal dari form menjadi objek Date
-      this.newExpense.date = new Date(this.expenseDate);
-
+    // Tidak perlu konversi tanggal lagi, karena mat-datepicker sudah memberikannya dalam format Date
+    if (this.newExpense.date && this.newExpense.amount > 0 && this.newExpense.category) {
       this.expenseService.addExpense(this.newExpense);
       this.router.navigate(['/expenses/dashboard']);
     } else {
-      // Opsi: Tampilkan pesan error jika data tidak lengkap
       console.log('Formulir tidak lengkap.');
     }
   }

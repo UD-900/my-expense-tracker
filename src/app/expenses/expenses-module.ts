@@ -9,6 +9,10 @@ import { EditExpense } from './edit-expense/edit-expense';
 import { CategoryDetail } from './category-detail/category-detail';
 import { BillTemplates } from './bill-templates/bill-templates';
 import { MonthlyBills } from './monthly-bills/monthly-bills'; // Diperlukan untuk form
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatNativeDateModule } from '@angular/material/core';
 
 const routes: Routes = [
   { path: 'dashboard', component: Dashboard },
@@ -33,7 +37,11 @@ const routes: Routes = [
   imports: [
     CommonModule,
     FormsModule, // Jangan lupa import ini!
-    RouterModule.forChild(routes)
+    RouterModule.forChild(routes),
+    MatFormFieldModule,  // Modul untuk input form
+    MatInputModule,      // Modul untuk input
+    MatDatepickerModule, // Modul utama datepicker
+    MatNativeDateModule  // Modul untuk format tanggal
   ]
 })
 export class ExpensesModule { }
