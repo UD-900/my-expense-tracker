@@ -3,6 +3,11 @@
 
   <form (ngSubmit)="onSubmit()">
     <div class="form-group">
+      <label for="date">Tanggal Pengeluaran:</label>
+      <input type="date" id="date" name="date" [(ngModel)]="expenseDate" required>
+    </div>
+
+    <div class="form-group">
       <label for="category">Kategori yang sudah ada:</label>
       <select id="category" name="category" [(ngModel)]="newExpense.category">
         <option value="" disabled selected>Pilih Kategori</option>
@@ -12,7 +17,8 @@
 
     <div class="form-group">
       <label for="newCategory">Atau tambahkan Kategori baru:</label>
-      <input type="text" id="newCategory" name="newCategory" [(ngModel)]="newCategoryName" placeholder="Contoh: Hiburan">
+      <input type="text" id="newCategory" name="newCategory" [(ngModel)]="newCategoryName"
+        placeholder="Contoh: Hiburan">
     </div>
 
     <div class="form-group">

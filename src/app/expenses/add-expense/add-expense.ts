@@ -19,6 +19,7 @@ export class AddExpense implements OnInit {
     date: new Date()
   };
 
+  expenseDate: string = new Date().toISOString().substring(0, 10); // Variabel baru untuk tanggal, inisialisasi dengan tanggal hari ini
   newCategoryName: string = ''; // Variabel baru untuk kategori
   categories: Category[] = [];
 
@@ -32,15 +33,21 @@ export class AddExpense implements OnInit {
   }
 
   onSubmit(): void {
-    // Logika untuk menambahkan kategori baru jika input diisi
     if (this.newCategoryName) {
       this.expenseService.addCategory(this.newCategoryName);
       this.newExpense.category = this.newCategoryName;
     }
 
-    if (this.newExpense.amount > 0 && this.newExpense.category) {
+    // Pastikan input tanggal dan kategori/jumlah terisi
+    if (this.expenseDate && this.newExpense.amount > 0 && this.newExpense.category) {
+      // Konversi string tanggal dari form menjadi objek Date
+      this.newExpense.date = new Date(this.expenseDate);
+
       this.expenseService.addExpense(this.newExpense);
       this.router.navigate(['/expenses/dashboard']);
+    } else {
+      // Opsi: Tampilkan pesan error jika data tidak lengkap
+      console.log('Formulir tidak lengkap.');
     }
   }
 }
