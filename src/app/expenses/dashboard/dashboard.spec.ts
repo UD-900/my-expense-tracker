@@ -1,23 +1,24 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { Dashboard } from "./dashboard";
+import { RouterModule, RouterOutlet } from "@angular/router";
 
-import { Dashboard } from './dashboard';
-
-describe('Dashboard', () => {
+describe("Dashboard", () => {
   let component: Dashboard;
   let fixture: ComponentFixture<Dashboard>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [Dashboard]
-    })
-    .compileComponents();
+      declarations: [Dashboard],
+      imports: [RouterModule.forRoot([])],
+      providers: [RouterOutlet],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(Dashboard);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });
