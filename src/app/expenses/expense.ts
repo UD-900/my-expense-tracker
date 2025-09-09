@@ -195,9 +195,12 @@ export class expenseService {
         category: template.category,
         dueDate: dueDate,
         isPaid: !!paidExpense,
+        isUnPaid: !!paidExpense,
         paidDate: paidExpense ? paidExpense.date : undefined,
-        paidExpenseId: paidExpense ? paidExpense.id : undefined // Simpan ID pengeluaran
+        paidExpenseId: paidExpense ? paidExpense.id : undefined
       });
+
+
     });
 
     return bills;

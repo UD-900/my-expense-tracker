@@ -49,21 +49,39 @@
     }
   }
 
-  .status {
+  // .status {
+  //   padding: 4px 8px;
+  //   border-radius: 4px;
+  //   font-weight: bold;
+  //   font-size: 0.85em;
+
+  //   &.paid {
+  //     background-color: #28a745;
+  //     color: white;
+  //   }
+
+  //   &.unpaid {
+  //     background-color: #ffc107;
+  //     color: #333;
+  //   }
+  // }
+
+  .statuspaid {
     padding: 4px 8px;
     border-radius: 4px;
     font-weight: bold;
     font-size: 0.85em;
+    background-color: #28a745;
+    color: white;
+  }
 
-    &.paid {
-      background-color: #28a745;
-      color: white;
-    }
-
-    &.unpaid {
-      background-color: #ffc107;
-      color: #333;
-    }
+  .statusunpaid {
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-weight: bold;
+    font-size: 0.85em;
+    background-color: #ffc107;
+    color: #333;
   }
 
   .pay-button,
@@ -78,6 +96,16 @@
 
     &:hover {
       background-color: #138496;
+    }
+  }
+
+  .undo-button {
+    background-color: #dc3545;
+    color: white;
+    margin-left: 5px;
+
+    &:hover {
+      background-color: #c82333;
     }
   }
 
@@ -111,15 +139,7 @@
     }
   }
 
-  .undo-button {
-    background-color: #dc3545;
-    color: white;
-    margin-left: 5px;
 
-    &:hover {
-      background-color: #c82333;
-    }
-  }
 
 
 }

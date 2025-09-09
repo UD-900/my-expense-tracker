@@ -21,16 +21,12 @@
         <td>{{ bill.amount | number }}</td>
         <td>{{ bill.dueDate | date: 'longDate' }}</td>
         <td>
-          <ng-container *ngIf="bill.isPaid; else unpaidButtons">
-            <span class="status paid">Sudah Dibayar</span>
-            <button class="undo-button" (click)="unmarkAsPaid(bill)">Batal</button>
-          </ng-container>
+          <span *ngIf="bill.isPaid" class="statuspaid">Sudah Dibayar</span>
+          <span *ngIf="!bill.isPaid" class="statusunpaid">Belum Dibayar</span>
         </td>
         <td>
-          <ng-template #unpaidButtons>
-            <span class="status unpaid">Belum Dibayar</span>
-            <button class="pay-button" (click)="markAsPaid(bill)">Tandai Sudah Dibayar</button>
-          </ng-template>
+          <button *ngIf="bill.isPaid" class="undo-button" (click)="unmarkAsPaid(bill)">Batal</button>
+          <button *ngIf="!bill.isPaid" class="pay-button" (click)="markAsPaid(bill)">Tandai Sudah Dibayar</button>
         </td>
       </tr>
     </tbody>

@@ -26,18 +26,9 @@ export interface MonthlyBill {
   name: string;
   amount: number;
   category: string;
-  dueDate: Date; // Objek Date lengkap
-  isPaid: boolean; // Status pembayaran
-  paidDate?: Date; // Opsional: Tanggal pembayaran
-}
-
-export interface MonthlyBill {
-  id: string;
-  name: string;
-  amount: number;
-  category: string;
   dueDate: Date;
   isPaid: boolean;
+  isUnPaid: boolean;
   paidDate?: Date;
   paidExpenseId?: string; // Tambahkan properti ini
 }
