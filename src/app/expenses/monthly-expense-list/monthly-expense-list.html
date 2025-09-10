@@ -1,0 +1,38 @@
+<div class="monthly-list-container">
+    <h2>Pengeluaran Berdasarkan Bulan</h2>
+
+    <div *ngFor="let month of monthlyExpenses | keyvalue">
+        <h3>{{ getMonthName(month.key) }} {{ getYear(month.key) }}</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Tanggal</th>
+                    <th>Deskripsi</th>
+                    <th>Kategori</th>
+                    <th>Jumlah (Rp)</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let expense of month.value">
+                    <td>{{ expense.date | date: 'mediumDate' }}</td>
+                    <td>{{ expense.description }}</td>
+                    <td>{{ expense.category }}</td>
+                    <td>{{ expense.amount | number }}</td>
+                    <td>
+                        <button class="edit-button" [routerLink]="['/expenses/edit', expense.id]">Edit</button>
+                        <button class="delete-button" (click)="deleteExpense(expense.id)">Hapus</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div *ngIf="(monthlyExpenses | keyvalue).length === 0" class="empty-state">
+        <p>Belum ada pengeluaran yang tercatat.</p>
+    </div>
+
+    <div class="button-group">
+        <button routerLink="/expenses/dashboard">Kembali ke Dashboard</button>
+    </div>
+</div>

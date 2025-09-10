@@ -15,6 +15,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatDialogModule } from '@angular/material/dialog';
 import { ConfirmationDialog } from '../shared/confirmation-dialog/confirmation-dialog';
+import { MonthlyExpenseList } from './monthly-expense-list/monthly-expense-list';
 
 const routes: Routes = [
   { path: 'dashboard', component: Dashboard },
@@ -23,7 +24,8 @@ const routes: Routes = [
   { path: 'edit/:id', component: EditExpense },
   { path: 'category/:categoryName', component: CategoryDetail },
   { path: 'bills', component: MonthlyBills },
-  { path: 'bill-templates', component: BillTemplates }
+  { path: 'bill-templates', component: BillTemplates },
+  { path: 'monthly-list', component: MonthlyExpenseList }
 ];
 
 @NgModule({
@@ -35,7 +37,8 @@ const routes: Routes = [
     CategoryDetail,
     BillTemplates,
     MonthlyBills,
-    ConfirmationDialog
+    ConfirmationDialog,
+    MonthlyExpenseList
   ],
   imports: [
     CommonModule,

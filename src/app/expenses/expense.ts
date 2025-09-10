@@ -224,4 +224,24 @@ export class expenseService {
       this.deleteExpense(bill.paidExpenseId);
     }
   }
+
+  // Metode baru: Mengambil pengeluaran yang dikelompokkan per bulan
+  getGroupedExpensesByMonth(): { [key: string]: Expense[] } {
+    const groupedExpenses: { [key: string]: Expense[] } = {};
+
+    this.expenses.forEach(expense => {
+      const month = expense.date.getMonth() + 1; // getMonth() dimulai dari 0
+      const year = expense.date.getFullYear();
+      const key = `${year}-${month.toString().padStart(2, '0')}`; // Contoh: "2023-09"
+
+      if (!groupedExpenses[key]) {
+        groupedExpenses[key] = [];
+      }
+      groupedExpenses[key].push(expense);
+    });
+
+    return groupedExpenses;
+  }
+
+
 }
