@@ -243,5 +243,22 @@ export class expenseService {
     return groupedExpenses;
   }
 
+  // Metode baru: Mengambil data pengeluaran per kategori untuk chart
+  getExpensesForChartByCategory(): { labels: string[], data: number[] } {
+    const categoryTotals: { [key: string]: number } = {};
+
+    this.expenses.forEach(expense => {
+      if (!categoryTotals[expense.category]) {
+        categoryTotals[expense.category] = 0;
+      }
+      categoryTotals[expense.category] += expense.amount;
+    });
+
+    const labels = Object.keys(categoryTotals);
+    const data = Object.values(categoryTotals);
+
+    return { labels, data };
+  }
+
 
 }

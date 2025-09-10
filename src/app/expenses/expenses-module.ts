@@ -16,6 +16,8 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatDialogModule } from '@angular/material/dialog';
 import { ConfirmationDialog } from '../shared/confirmation-dialog/confirmation-dialog';
 import { MonthlyExpenseList } from './monthly-expense-list/monthly-expense-list';
+import { BaseChartDirective, provideCharts, withDefaultRegisterables } from 'ng2-charts';
+import { ExpenseChart } from './expense-chart/expense-chart';
 
 const routes: Routes = [
   { path: 'dashboard', component: Dashboard },
@@ -38,7 +40,8 @@ const routes: Routes = [
     BillTemplates,
     MonthlyBills,
     ConfirmationDialog,
-    MonthlyExpenseList
+    MonthlyExpenseList,
+    ExpenseChart
   ],
   imports: [
     CommonModule,
@@ -49,6 +52,9 @@ const routes: Routes = [
     MatDatepickerModule, // Modul utama datepicker
     MatNativeDateModule,  // Modul untuk format tanggal
     MatDialogModule,
-  ]
+    BaseChartDirective,  
+  ],
+  providers: [provideCharts(withDefaultRegisterables())]
+
 })
 export class ExpensesModule { }
