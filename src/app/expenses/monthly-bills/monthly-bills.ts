@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { MonthlyBill } from '../../models/expense.model';
 import { expenseService } from '../expense';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmationDialog } from '../../shared/confirmation-dialog/confirmation-dialog';
 
 @Component({
   selector: 'app-monthly-bills',
@@ -12,7 +14,10 @@ export class MonthlyBills implements OnInit {
 
   monthlyBills: MonthlyBill[] = [];
 
-  constructor(private expenseService: expenseService) { }
+  constructor(
+    private expenseService: expenseService,
+    private dialog: MatDialog
+  ) { }
 
   ngOnInit(): void {
     this.getBills();
@@ -24,21 +29,36 @@ export class MonthlyBills implements OnInit {
 
   markAsPaid(bill: MonthlyBill): void {
     const confirmation = confirm('Apakah Anda yakin ingin menandai tagihan ini sebagai sudah dibayar? Ini akan mencatat pengeluaran di dashboard Anda.');
+    const dialogRef = this.dialog.open(ConfirmationDialog, {
+      data: {
+        title: 'peringatan',
+        message: 'Apakah Anda yakin ingin menandai tagihan ini sebagai sudah dibayar? Ini akan mencatat pengeluaran di dashboard Anda.'
+      }
+    })
 
-    if (confirmation) {
-      this.expenseService.markBillAsPaid(bill);
-      this.getBills(); // Muat ulang daftar tagihan
-    }
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.expenseService.markBillAsPaid(bill);
+        this.getBills();
+      }
+    })
   }
 
   // Metode BARU untuk membatalkan pembayaran
   unmarkAsPaid(bill: MonthlyBill): void {
-    const confirmation = confirm('Apakah Anda yakin ingin membatalkan pembayaran ini? Pengeluaran yang terkait akan dihapus.');
+    const dialogRef = this.dialog.open(ConfirmationDialog, {
+      data: {
+        title: 'peringatan',
+        message: 'Apakah Anda yakin ingin membatalkan pembayaran ini? Pengeluaran yang terkait akan dihapus.'
+      }
+    });
 
-    if (confirmation) {
-      this.expenseService.unmarkBillAsPaid(bill);
-      this.getBills();
-    }
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.expenseService.unmarkBillAsPaid(bill);
+        this.getBills();
+      }
+    });
   }
 
 }

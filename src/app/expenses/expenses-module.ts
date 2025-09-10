@@ -13,6 +13,8 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatNativeDateModule } from '@angular/material/core';
+import { MatDialogModule } from '@angular/material/dialog';
+import { ConfirmationDialog } from '../shared/confirmation-dialog/confirmation-dialog';
 
 const routes: Routes = [
   { path: 'dashboard', component: Dashboard },
@@ -32,7 +34,8 @@ const routes: Routes = [
     EditExpense,
     CategoryDetail,
     BillTemplates,
-    MonthlyBills
+    MonthlyBills,
+    ConfirmationDialog
   ],
   imports: [
     CommonModule,
@@ -41,7 +44,8 @@ const routes: Routes = [
     MatFormFieldModule,  // Modul untuk input form
     MatInputModule,      // Modul untuk input
     MatDatepickerModule, // Modul utama datepicker
-    MatNativeDateModule  // Modul untuk format tanggal
+    MatNativeDateModule,  // Modul untuk format tanggal
+    MatDialogModule,
   ]
 })
 export class ExpensesModule { }

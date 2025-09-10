@@ -3,6 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing-module';
 import { App } from './app';
+import { ConfirmationDialog } from './shared/confirmation-dialog/confirmation-dialog';
 
 @NgModule({
   declarations: [
